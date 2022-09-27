@@ -25,6 +25,7 @@ namespace Aquarium
             {
                 Console.Clear();
                 Aquarium.MoveFish(aquarium, fish_list); //Koordinaten des Fisches werden geändert
+                Aquarium.EatFish(Aquarium.DetectFish(fish_list), fish_list);
                 Aquarium.PlaceFish(aquarium, fish_list); //Fisch wird ins Aquarium gesetzt             
                 Aquarium.PrintAquarium(aquarium); //Aquarium wird ausgegeben         
                 Thread.Sleep(300);

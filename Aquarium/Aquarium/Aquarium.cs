@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,15 +64,13 @@ namespace Aquarium
         {
             List<Fish> fish_list = list;
 
-
-            fish_list.Add(new Carp());
-            fish_list.Add(new Carp());
-            fish_list.Add(new Carp());
-            fish_list.Add(new Carp());
             fish_list.Add(new Shark());
-            fish_list.Add(new Swordfish());
+            fish_list.Add(new Carp());
+            fish_list.Add(new Carp());
+            fish_list.Add(new Carp());
             fish_list.Add(new Swordfish());
             fish_list.Add(new Blowfish());
+
 
             Random r = new Random();
             foreach (Fish f in fish_list)
@@ -121,8 +121,6 @@ namespace Aquarium
                 }
             }
         }
-
-
         public static void MoveFish(string[,] p_Aquarium, List<Fish> fish_list)
         {
             Random r = new Random();
@@ -188,7 +186,49 @@ namespace Aquarium
             }
               
         }
-        
+        public static Fish DetectFish(List<Fish> fish_list)
+        {
+            Fish eaten_fish = fish_list[0]; 
+            foreach(Fish f in fish_list)
+            {
+                if(f.GetType() == typeof(Shark)) //Überprüfung, ob Fisch = Shark
+                {
+                    foreach(Fish p in fish_list)
+                    {
+                        if(p.GetType() != typeof(Shark)) //Überprüfung anderer Fisch != Shark
+                        {
+
+                            for (int a = 0; a < f.Lenght; a++)
+                            {
+                                for (int b = 0; b < p.Lenght; b++)
+                                {
+                                    if ((f.PosX + a == p.PosX + b) && (f.PosY == p.PosY))
+                                    {
+                                        eaten_fish = p;
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                
+                
+            }
+            return eaten_fish;
+
+
+        }
+        public static void EatFish(Fish fish, List<Fish> fish_list)
+        {
+            if (fish.GetType() != typeof(Shark))
+            {
+                fish_list.Remove(fish);
+            }
+            
+
+        }
 
     }
 
