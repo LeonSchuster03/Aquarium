@@ -13,10 +13,14 @@ namespace Aquarium
         {
             PosX = 0;
             PosY = 0;
+            OldPosX = PosX;
+            OldPosY = PosY;
             Shape = "-<><";
             mirrored_Shape = "><>-";
             Lenght = 4;
             SwimDirectionRight = true;
+            SwimDirectionUp = true;
+            ChangeDepth = 5;
 
         }
 

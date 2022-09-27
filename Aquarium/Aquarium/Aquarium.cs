@@ -83,8 +83,8 @@ namespace Aquarium
         {
             foreach (Fish f in fish_list)
             {
-
                 
+
 
                 if (f.SwimDirectionRight)
                 {
@@ -121,30 +121,70 @@ namespace Aquarium
 
         public static void MoveFish(string[,] p_Aquarium, List<Fish> fish_list)
         {
-              foreach(Fish f in fish_list)
-              {
+            Random r = new Random();
+            foreach (Fish f in fish_list)
+            {
+                int d = r.Next(1, f.ChangeDepth+1);
+
+                if (f.ChangeDepth != d )
+                { //Fisch ändert Tiefe nicht
                     if (f.SwimDirectionRight)
                     {
                         f.PosX--;
-                        if(f.PosX == 1)
+                        if (f.PosX == 1)
                         {
-                        f.SwimDirectionRight = !f.SwimDirectionRight;
-                        p_Aquarium[f.PosX+f.Lenght, f.PosY] = " ";
+                            f.SwimDirectionRight = !f.SwimDirectionRight;
+                            p_Aquarium[f.PosX + f.Lenght, f.PosY] = " ";
                         }
                     }
                     else
                     {
                         f.PosX++;
-                        if(f.PosX + f.Lenght - 1 == 38)
+                        if (f.PosX + f.Lenght - 1 == 38)
                         {
-                        f.SwimDirectionRight = !f.SwimDirectionRight;
-                        p_Aquarium[f.PosX - 1, f.PosY] = " ";
+                            f.SwimDirectionRight = !f.SwimDirectionRight;
+                            p_Aquarium[f.PosX - 1, f.PosY] = " ";
                         }
                     }
-                   
-              }
+
+                }
+                else //Fisch ändert Tiefe
+                {
+
+                    f.OldPosX = f.PosX;
+                    f.OldPosY = f.PosY;
+
+                    if (f.SwimDirectionUp && (f.PosY != 8))
+                    {
+                        if (f.PosY == 7)
+                        {
+                            f.SwimDirectionUp = false;
+                        }
+                        f.PosY++; //Fisch schwimmt nach oben
+                        
+                        
+                    }
+                    else if(!f.SwimDirectionUp && (f.PosY != 0))
+                    {
+                        if (f.PosY == 1)
+                        {
+                            f.SwimDirectionUp = true;
+                        }
+                        f.PosY--; //Fisch schwimmt nach unten
+                        
+                        
+                    }
+                    for (int i = 0; i < f.Lenght; i++) //"Alten" Fisch löschen
+                    {
+                        p_Aquarium[f.OldPosX + i, f.OldPosY] = " ";
+                    }
+
+                }
+
+            }
               
         }
+        
 
     }
 

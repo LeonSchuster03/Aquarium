@@ -23,10 +23,8 @@ namespace Aquarium
             {
                 Console.Clear();
                 Aquarium.MoveFish(aquarium, fish_list);
-                Aquarium.PlaceFish(aquarium, fish_list);
-                
-                Aquarium.PrintAquarium(aquarium);
-                
+                Aquarium.PlaceFish(aquarium, fish_list);                
+                Aquarium.PrintAquarium(aquarium);                
                 Console.ReadLine();
 
             }
