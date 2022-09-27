@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,41 +13,24 @@ namespace Aquarium
     {
         static void Main(string[] args)
         {
+            List<Fish> fish_list = new List<Fish>();
+             string[,] aquarium = Aquarium.GenerateAquarium();   //Aquarium wird generiert
 
-            int y = 6;
-            int x = 20;
-            string[,] aquarium = new string[x, y];
-            for(int j = 0; j < y; j++)
+            Aquarium.CreateFish(aquarium,fish_list);//Fische werden erstellt
+            Aquarium.PlaceFish(aquarium, fish_list);//Fische werden ins Aquarium gesetzt
+            Aquarium.PrintAquarium(aquarium); //Aquarium wird ausgegeben
+            while(true)
             {
-                for(int i = 0; i < x; i++)
-                {
-                    if(i == 0 || i == x - 1)
-                    {
-                        aquarium[i, j] = "|";
-                    }
-                    else
-                    {
-                        aquarium[i, j] = " ";
-                    }
+                Console.Clear();
+                Aquarium.MoveFish(aquarium, fish_list);
+                Aquarium.PlaceFish(aquarium, fish_list);
+                
+                Aquarium.PrintAquarium(aquarium);
+                
+                Console.ReadLine();
 
-                    if(j == y - 1)
-                    {
-                        aquarium[i, j] = "-";
-                    }
-                }
             }
-                  
-            //print aquarium
-            for(int j = 0; j < y; j++)
-            {
-                for(int b = 0; b < x; b++)
-                {
-                    Console.Write(aquarium[b,j]);
-                }
-                Console.Write("\n");
-            }
-
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }
