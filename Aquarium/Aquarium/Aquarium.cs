@@ -18,13 +18,13 @@ namespace Aquarium
         } 
         public static int AskUserForHight()
         {
-            Console.WriteLine("Wie hoch soll das Aquarium sein?");
+            Console.WriteLine("Wie hoch soll das Aquarium sein? (min 4)");
             int hight = Convert.ToInt32(Console.ReadLine());
             return hight;
         }
         public static int AskUserForWidth()
         {
-            Console.WriteLine("Wie breit soll das Aquarium sein?");
+            Console.WriteLine("Wie breit soll das Aquarium sein? (min 14)");
             int width = Convert.ToInt32(Console.ReadLine());
             return width;
         }
@@ -75,7 +75,7 @@ namespace Aquarium
             List<Fish> fish_list = list;
 
             fish_list.Add(new Shark());
-            if(width > 15 && hight > 10)
+            if(width > 24 && hight > 5)
             {
                 fish_list.Add(new Shark());
                 fish_list.Add(new Carp());
@@ -159,9 +159,9 @@ namespace Aquarium
                     f.OldPosX = f.PosX;
                     f.OldPosY = f.PosY;
 
-                    if (f.SwimDirectionUp && (f.PosY != hight - 2))
+                    if (f.SwimDirectionUp && (f.PosY != hight - 2) )
                     {
-                        if (f.PosY == 7) //Wenn Fisch den Rand vom Aquarium berührt, ändert er seine Richtung
+                        if (f.PosY == hight - 1) //Wenn Fisch den Rand vom Aquarium berührt, ändert er seine Richtung
                         {
                             f.SwimDirectionUp = false;
                         }
@@ -174,6 +174,10 @@ namespace Aquarium
                             f.SwimDirectionUp = true;
                         }
                         f.PosY--; //Fisch schwimmt nach unten                                                
+                    }
+                    else
+                    {
+                        f.SwimDirectionUp = !f.SwimDirectionUp;
                     }
                     for (int i = 0; i < f.Lenght; i++) //"Alte" Fisch wird gelöscht
                     {
