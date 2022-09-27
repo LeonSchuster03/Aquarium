@@ -20,7 +20,7 @@ namespace Aquarium
             Lenght = 10;
             SwimDirectionRight = false;
             SwimDirectionUp = true;
-            ChangeDepth =  4;
+            ChangeDepth =  4; 
 
 
         }

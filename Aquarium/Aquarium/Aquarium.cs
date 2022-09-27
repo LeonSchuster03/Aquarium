@@ -64,7 +64,11 @@ namespace Aquarium
 
 
             fish_list.Add(new Carp());
+            fish_list.Add(new Carp());
+            fish_list.Add(new Carp());
+            fish_list.Add(new Carp());
             fish_list.Add(new Shark());
+            fish_list.Add(new Swordfish());
             fish_list.Add(new Swordfish());
             fish_list.Add(new Blowfish());
 
@@ -86,17 +90,17 @@ namespace Aquarium
                 
 
 
-                if (f.SwimDirectionRight)
+                if (f.SwimDirectionRight) //Richtung des Fisches wird überprüft
                 {
 
                     for (int a = 0; a < f.Lenght; a++)
                     {
-                        p_Aquarium[f.PosX + a, f.PosY] = f.Shape[a].ToString();
+                        p_Aquarium[f.PosX + a, f.PosY] = f.Shape[a].ToString(); //Fisch wird geprintet
                         if (p_Aquarium[f.PosX + f.Lenght, f.PosY] != "|")
                         {
                             p_Aquarium[f.PosX + f.Lenght, f.PosY] = " ";
                         }
-                            p_Aquarium[0, f.PosY] = "|";
+                            p_Aquarium[0, f.PosY] = "|"; //Rand wird wiederhergestellt
 
                         
 
@@ -106,12 +110,12 @@ namespace Aquarium
                 {
                     for (int a = 0; a < f.Lenght; a++)
                     {
-                        p_Aquarium[f.PosX + a, f.PosY] = f.mirrored_Shape[a].ToString();
+                        p_Aquarium[f.PosX + a, f.PosY] = f.mirrored_Shape[a].ToString(); //Gespiegelter Fisch wird geprintet
                         if (p_Aquarium[f.PosX-1, f.PosY] != "|")
                         {
                             p_Aquarium[f.PosX-1, f.PosY] = " ";
                         }
-                            p_Aquarium[0, f.PosY] = "|";
+                            p_Aquarium[0, f.PosY] = "|"; //Rand wird wiederhergestellt
                         
                     }
                 }
@@ -124,7 +128,7 @@ namespace Aquarium
             Random r = new Random();
             foreach (Fish f in fish_list)
             {
-                int d = r.Next(1, f.ChangeDepth+1);
+                int d = r.Next(1, f.ChangeDepth+1); //Wahrscheinlichkeit, mit welcher der Fisch seine Tiefe ändert
 
                 if (f.ChangeDepth != d )
                 { //Fisch ändert Tiefe nicht
@@ -134,7 +138,7 @@ namespace Aquarium
                         if (f.PosX == 1)
                         {
                             f.SwimDirectionRight = !f.SwimDirectionRight;
-                            p_Aquarium[f.PosX + f.Lenght, f.PosY] = " ";
+                            p_Aquarium[f.PosX + f.Lenght, f.PosY] = " "; //Überstehendes Fischteil wird deleted
                         }
                     }
                     else
@@ -143,7 +147,7 @@ namespace Aquarium
                         if (f.PosX + f.Lenght - 1 == 38)
                         {
                             f.SwimDirectionRight = !f.SwimDirectionRight;
-                            p_Aquarium[f.PosX - 1, f.PosY] = " ";
+                            p_Aquarium[f.PosX - 1, f.PosY] = " "; //Überstehendes Fischteil wird deleted
                         }
                     }
 
@@ -156,7 +160,7 @@ namespace Aquarium
 
                     if (f.SwimDirectionUp && (f.PosY != 8))
                     {
-                        if (f.PosY == 7)
+                        if (f.PosY == 7) //Wenn Fisch den Rand vom Aquarium berührt, ändert er seine Richtung
                         {
                             f.SwimDirectionUp = false;
                         }
@@ -166,7 +170,7 @@ namespace Aquarium
                     }
                     else if(!f.SwimDirectionUp && (f.PosY != 0))
                     {
-                        if (f.PosY == 1)
+                        if (f.PosY == 1) //Wenn Fisch den Rand vom Aquarium berührt, ändert er seine Richtung
                         {
                             f.SwimDirectionUp = true;
                         }
@@ -174,7 +178,7 @@ namespace Aquarium
                         
                         
                     }
-                    for (int i = 0; i < f.Lenght; i++) //"Alten" Fisch löschen
+                    for (int i = 0; i < f.Lenght; i++) //"Alte" Fisch wird gelöscht
                     {
                         p_Aquarium[f.OldPosX + i, f.OldPosY] = " ";
                     }

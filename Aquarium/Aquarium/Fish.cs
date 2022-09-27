@@ -16,9 +16,9 @@ namespace Aquarium
         public string Shape { get; set; }
         public string mirrored_Shape { get; set; }
         public int Lenght { get; set; }
-        public int ChangeDepth { get; set; }
-        public bool SwimDirectionRight { get; set; }
-        public bool SwimDirectionUp { get; set; }
+        public int ChangeDepth { get; set; }            //Gibt an, mit welcher Wahrscheinlichkeit der Fisch seine Tiefe ändert
+        public bool SwimDirectionRight { get; set; } //Gibt an, ob der Fisch nach links oder rechts schwimmt
+        public bool SwimDirectionUp { get; set; } //Gibt an, ob der Fisch nach oben oder unten schwimmt
 
 
 
