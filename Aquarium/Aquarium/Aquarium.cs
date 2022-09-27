@@ -15,17 +15,29 @@ namespace Aquarium
         public Aquarium()
         {
             
-        }        
-        public static string[,] GenerateAquarium()  //Aquarium mit Breite 40 und Höhe 10 wird generiert
+        } 
+        public static int AskUserForHight()
         {
+            Console.WriteLine("Wie hoch soll das Aquarium sein?");
+            int hight = Convert.ToInt32(Console.ReadLine());
+            return hight;
+        }
+        public static int AskUserForWidth()
+        {
+            Console.WriteLine("Wie breit soll das Aquarium sein?");
+            int width = Convert.ToInt32(Console.ReadLine());
+            return width;
+        }
 
-            string[,] aquarium = new string[40, 10];
+        public static string[,] GenerateAquarium(int width,int  hight)  //Aquarium mit Breite 40 und Höhe 10 wird generiert
+        {
+            string[,] aquarium = new string[width, hight];
 
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < hight; j++)
             {
-                for (int i = 0; i < 40; i++)
+                for (int i = 0; i < width; i++)
                 {
-                    if (i == 0 || i == 40 - 1)
+                    if (i == 0 || i == width - 1)
                     {
                         aquarium[i, j] = "|";
                     }
@@ -34,11 +46,11 @@ namespace Aquarium
                         aquarium[i, j] = " ";
                     }
 
-                    if (j == 10 - 1)
+                    if (j == hight - 1)
                     {
                         aquarium[i, j] = "-";
                     }
-                    if ((j == 10 - 1 && i == 0) || (j == 10 - 1 && i == 39))
+                    if ((j == hight - 1 && i == 0) || (j == hight - 1 && i == width - 1))
                     {
                         aquarium[i, j] = "+";
                     }
@@ -46,64 +58,57 @@ namespace Aquarium
             }
             return aquarium;
         }
-        public static void PrintAquarium(string[,]p_Aquarium) 
+        public static void PrintAquarium(string[,]p_Aquarium, int width, int hight) 
         {
-
             Console.Clear();
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < hight; j++)
             {
-                for (int b = 0; b < 40; b++)
+                for (int b = 0; b < width; b++)
                 {
                     Console.Write(p_Aquarium[b, j]);
                 }
                 Console.Write("\n");
-            }
-            
+            }          
         }
-        public static void CreateFish(string[,] p_Aquarium, List<Fish>list)    //Hier Fische eingeben, die dem Aquarium hinzugefügt werden sollen
+        public static void CreateFish(string[,] p_Aquarium, List<Fish>list, int width, int hight)    //Hier Fische eingeben, die dem Aquarium hinzugefügt werden sollen
         {
             List<Fish> fish_list = list;
 
             fish_list.Add(new Shark());
+            if(width > 15 && hight > 10)
+            {
+                fish_list.Add(new Shark());
+                fish_list.Add(new Carp());
+                fish_list.Add(new Carp());
+                fish_list.Add(new Swordfish());
+            }
             fish_list.Add(new Carp());
             fish_list.Add(new Carp());
             fish_list.Add(new Carp());
             fish_list.Add(new Swordfish());
             fish_list.Add(new Blowfish());
 
-
             Random r = new Random();
             foreach (Fish f in fish_list)
-            {
-                
-                f.PosX = r.Next(1, 38 - f.Lenght); // x
-                f.PosY = r.Next(0, 8); // y
-  
-            }
-
-            
+            {                
+                f.PosX = r.Next(1, width - 2 - f.Lenght); // x
+                f.PosY = r.Next(0, hight - 2); // y  
+            }           
         }
-        public static void PlaceFish(string[,] p_Aquarium, List<Fish>fish_list)
+        public static void PlaceFish(string[,] p_Aquarium, List<Fish>fish_list, int width, int hight)
         {
             foreach (Fish f in fish_list)
-            {
-                
-
-
+            {                
                 if (f.SwimDirectionRight) //Richtung des Fisches wird überprüft
                 {
-
                     for (int a = 0; a < f.Lenght; a++)
                     {
                         p_Aquarium[f.PosX + a, f.PosY] = f.Shape[a].ToString(); //Fisch wird geprintet
-                        if (p_Aquarium[f.PosX + f.Lenght, f.PosY] != "|")
-                        {
-                            p_Aquarium[f.PosX + f.Lenght, f.PosY] = " ";
-                        }
-                            p_Aquarium[0, f.PosY] = "|"; //Rand wird wiederhergestellt
-
                         
-
+                        p_Aquarium[f.PosX + f.Lenght, f.PosY] = " ";
+                        
+                        p_Aquarium[0, f.PosY] = "|"; //Rand wird wiederhergestellt
+                        p_Aquarium[width-1, f.PosY] = "|";
                     }
                 }
                 else
@@ -116,12 +121,12 @@ namespace Aquarium
                             p_Aquarium[f.PosX-1, f.PosY] = " ";
                         }
                             p_Aquarium[0, f.PosY] = "|"; //Rand wird wiederhergestellt
-                        
+                            p_Aquarium[width -1, f.PosY] = "|";                        
                     }
                 }
             }
         }
-        public static void MoveFish(string[,] p_Aquarium, List<Fish> fish_list)
+        public static void MoveFish(string[,] p_Aquarium, List<Fish> fish_list, int width, int hight)
         {
             Random r = new Random();
             foreach (Fish f in fish_list)
@@ -142,29 +147,25 @@ namespace Aquarium
                     else
                     {
                         f.PosX++;
-                        if (f.PosX + f.Lenght - 1 == 38)
+                        if (f.PosX + f.Lenght - 1 == width - 2)
                         {
                             f.SwimDirectionRight = !f.SwimDirectionRight;
                             p_Aquarium[f.PosX - 1, f.PosY] = " "; //Überstehendes Fischteil wird deleted
                         }
                     }
-
                 }
                 else //Fisch ändert Tiefe
                 {
-
                     f.OldPosX = f.PosX;
                     f.OldPosY = f.PosY;
 
-                    if (f.SwimDirectionUp && (f.PosY != 8))
+                    if (f.SwimDirectionUp && (f.PosY != hight - 2))
                     {
                         if (f.PosY == 7) //Wenn Fisch den Rand vom Aquarium berührt, ändert er seine Richtung
                         {
                             f.SwimDirectionUp = false;
                         }
-                        f.PosY++; //Fisch schwimmt nach oben
-                        
-                        
+                        f.PosY++; //Fisch schwimmt nach oben                                               
                     }
                     else if(!f.SwimDirectionUp && (f.PosY != 0))
                     {
@@ -172,19 +173,14 @@ namespace Aquarium
                         {
                             f.SwimDirectionUp = true;
                         }
-                        f.PosY--; //Fisch schwimmt nach unten
-                        
-                        
+                        f.PosY--; //Fisch schwimmt nach unten                                                
                     }
                     for (int i = 0; i < f.Lenght; i++) //"Alte" Fisch wird gelöscht
                     {
                         p_Aquarium[f.OldPosX + i, f.OldPosY] = " ";
                     }
-
                 }
-
-            }
-              
+            }             
         }
         public static Fish DetectFish(List<Fish> fish_list)
         {
@@ -208,28 +204,23 @@ namespace Aquarium
                                     }
                                 }
                             }
-                        }
-                        
-                    }
-                    
-                }
-                
-                
+                        }                        
+                    }                    
+                }                               
             }
             return eaten_fish;
-
-
         }
-        public static void EatFish(Fish fish, List<Fish> fish_list)
+        public static void EatFish(Fish fish, List<Fish> fish_list, string[,] p_Aquarium)
         {
             if (fish.GetType() != typeof(Shark))
             {
+                for(int a = 0; a < fish.Lenght; a++)
+                {
+                    p_Aquarium[fish.PosX+a, fish.PosY] = " ";
+                    
+                }
                 fish_list.Remove(fish);
-            }
-            
-
+            }            
         }
-
     }
-
 }

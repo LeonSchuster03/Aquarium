@@ -15,23 +15,26 @@ namespace Aquarium
         static void Main(string[] args)
         {
             List<Fish> fish_list = new List<Fish>();
-             string[,] aquarium = Aquarium.GenerateAquarium();   //Aquarium wird generiert
+            int width = Aquarium.AskUserForWidth();
+            int hight = Aquarium.AskUserForHight();
+             string[,] aquarium = Aquarium.GenerateAquarium(width, hight);//Aquarium wird generiert
 
-            Aquarium.CreateFish(aquarium,fish_list);//Fische werden erstellt
-            Aquarium.PlaceFish(aquarium, fish_list);//Fische werden ins Aquarium gesetzt
-            Aquarium.PrintAquarium(aquarium); //Aquarium wird ausgegeben
+            Aquarium.CreateFish(aquarium,fish_list, width, hight);//Fische werden erstellt
+            Aquarium.PlaceFish(aquarium, fish_list, width, hight);//Fische werden ins Aquarium gesetzt
+            Aquarium.PrintAquarium(aquarium,width, hight); //Aquarium wird ausgegeben
             
-            while(true)
+            while(fish_list.Count() > 1)
             {
                 Console.Clear();
-                Aquarium.MoveFish(aquarium, fish_list); //Koordinaten des Fisches werden geändert
-                Aquarium.EatFish(Aquarium.DetectFish(fish_list), fish_list);
-                Aquarium.PlaceFish(aquarium, fish_list); //Fisch wird ins Aquarium gesetzt             
-                Aquarium.PrintAquarium(aquarium); //Aquarium wird ausgegeben         
+                Aquarium.EatFish(Aquarium.DetectFish(fish_list), fish_list, aquarium); //Hai isst Fisch, wenn beide sich in den selben Koordinaten befinden
+                Aquarium.MoveFish(aquarium, fish_list, width, hight); //Koordinaten des Fisches werden geändert               
+                Aquarium.PlaceFish(aquarium, fish_list, width, hight); //Fisch wird ins Aquarium gesetzt             
+                Aquarium.PrintAquarium(aquarium, width, hight); //Aquarium wird ausgegeben         
                 Thread.Sleep(300);
+                
 
             }
-            //Console.ReadLine();
+            Console.ReadLine();
         }
     }
 }
